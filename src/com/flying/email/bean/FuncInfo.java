@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * auth:flying date:2017年7月14日
  **/
-public class FuncInfo {
+public class FuncInfo  implements java.io.Serializable {
 	private Integer keyId;
 	private String functionname;
 	private String functioninfo;

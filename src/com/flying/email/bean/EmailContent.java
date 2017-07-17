@@ -5,6 +5,7 @@ import java.util.Date;
 /**
  * auth:flying date:2017年7月14日
  **/
+@SuppressWarnings("serial")
 public class EmailContent implements java.io.Serializable {
 	private Integer keyId;
 	private int emailto;

@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * auth:flying date:2017年7月14日
  **/
-public class SubjectItems {
+public class SubjectItems  implements java.io.Serializable {
 	private Integer keyId;
 	private int subjectid;
 	private int execution;

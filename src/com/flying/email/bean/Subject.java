@@ -6,7 +6,7 @@ import java.util.Date;
  * auth:flying
  * date:2017年7月14日
  **/
-public class Subject {
+public class Subject  implements java.io.Serializable {
 	private Integer keyId;
 	private int mainsubjectid;
 	private String subjectname;
