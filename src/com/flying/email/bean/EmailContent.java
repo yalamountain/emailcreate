@@ -1,6 +1,12 @@
 package com.flying.email.bean;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.swing.text.ElementIterator;
 
 /**
  * auth:flying date:2017年7月14日
@@ -8,26 +14,24 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class EmailContent implements java.io.Serializable {
 	private Integer keyId;
-	private int emailto;
-	private byte ccto;
+	private String emailto;
+	private String ccto;
 	private String emailsubject;
-	private byte emailtype;
+	private int emailtype;
 	private String attachment;
 	private int subjectlevel;
-	private byte issened;
-	private byte islock;
+	private int issened;
+	private int islock;
 	private Date locktime;
-	private byte isdelete;
+	private int isdelete;
 	private Date createTime;
 	private String modifyUser;
-	private Date modifyTime;
 
 	public EmailContent() {
 	}
 
-	public EmailContent(int emailto, byte ccto, String emailsubject, byte emailtype, String attachment,
-			int subjectlevel, byte issened, byte islock, Date locktime, byte isdelete, String modifyUser,
-			Date modifyTime) {
+	public EmailContent(String emailto, String ccto, String emailsubject, int emailtype, String attachment,
+			int subjectlevel, int issened, int islock, Date locktime, int isdelete, String modifyUser) {
 		this.emailto = emailto;
 		this.ccto = ccto;
 		this.emailsubject = emailsubject;
@@ -39,12 +43,11 @@ public class EmailContent implements java.io.Serializable {
 		this.locktime = locktime;
 		this.isdelete = isdelete;
 		this.modifyUser = modifyUser;
-		this.modifyTime = modifyTime;
 	}
 
-	public EmailContent(int emailto, byte ccto, String emailsubject, byte emailtype, String attachment,
-			int subjectlevel, byte issened, byte islock, Date locktime, byte isdelete, Date createTime,
-			String modifyUser, Date modifyTime) {
+	public EmailContent(String emailto, String ccto, String emailsubject, int emailtype, String attachment,
+			int subjectlevel, int issened, int islock, Date locktime, int isdelete, Date createTime,
+			String modifyUser) {
 		this.emailto = emailto;
 		this.ccto = ccto;
 		this.emailsubject = emailsubject;
@@ -57,7 +60,6 @@ public class EmailContent implements java.io.Serializable {
 		this.isdelete = isdelete;
 		this.createTime = createTime;
 		this.modifyUser = modifyUser;
-		this.modifyTime = modifyTime;
 	}
 
 	public Integer getKeyId() {
@@ -68,19 +70,19 @@ public class EmailContent implements java.io.Serializable {
 		this.keyId = keyId;
 	}
 
-	public int getEmailto() {
+	public String getEmailto() {
 		return this.emailto;
 	}
 
-	public void setEmailto(int emailto) {
+	public void setEmailto(String emailto) {
 		this.emailto = emailto;
 	}
 
-	public byte getCcto() {
+	public String getCcto() {
 		return this.ccto;
 	}
 
-	public void setCcto(byte ccto) {
+	public void setCcto(String ccto) {
 		this.ccto = ccto;
 	}
 
@@ -92,11 +94,11 @@ public class EmailContent implements java.io.Serializable {
 		this.emailsubject = emailsubject;
 	}
 
-	public byte getEmailtype() {
+	public int getEmailtype() {
 		return this.emailtype;
 	}
 
-	public void setEmailtype(byte emailtype) {
+	public void setEmailtype(int emailtype) {
 		this.emailtype = emailtype;
 	}
 
@@ -116,19 +118,19 @@ public class EmailContent implements java.io.Serializable {
 		this.subjectlevel = subjectlevel;
 	}
 
-	public byte getIssened() {
+	public int getIssened() {
 		return this.issened;
 	}
 
-	public void setIssened(byte issened) {
+	public void setIssened(int issened) {
 		this.issened = issened;
 	}
 
-	public byte getIslock() {
+	public int getIslock() {
 		return this.islock;
 	}
 
-	public void setIslock(byte islock) {
+	public void setIslock(int islock) {
 		this.islock = islock;
 	}
 
@@ -140,11 +142,11 @@ public class EmailContent implements java.io.Serializable {
 		this.locktime = locktime;
 	}
 
-	public byte getIsdelete() {
+	public int getIsdelete() {
 		return this.isdelete;
 	}
 
-	public void setIsdelete(byte isdelete) {
+	public void setIsdelete(int isdelete) {
 		this.isdelete = isdelete;
 	}
 
@@ -164,12 +166,40 @@ public class EmailContent implements java.io.Serializable {
 		this.modifyUser = modifyUser;
 	}
 
-	public Date getModifyTime() {
-		return this.modifyTime;
-	}
+	/**
+	 * 将数据结果转化为model
+	 * 
+	 * @param resultSet
+	 * @return
+	 */
+	public static List<EmailContent> TransFormModelList(ResultSet resultSet) {
+		try {
+			if (resultSet.wasNull()) {
+				return null;
+			} else {
+				ArrayList<EmailContent> listcontent = new ArrayList<EmailContent>();
+				while (resultSet.next()) {
+					EmailContent emailContent = new EmailContent();
+					emailContent.setKeyId(resultSet.getInt("keyid"));
+					emailContent.setEmailto(resultSet.getString("emailto"));
+					emailContent.setCcto(resultSet.getString("ccto"));
+					emailContent.setEmailsubject(resultSet.getString("emailsubject"));
+					emailContent.setEmailtype(resultSet.getInt("emailtype"));
+					emailContent.setAttachment(resultSet.getString("attachment"));
+					emailContent.setSubjectlevel(resultSet.getInt("subjectlevel"));
+					emailContent.setIssened(resultSet.getInt("issend"));
+					emailContent.setIslock(resultSet.getInt("islock"));
+					emailContent.setIsdelete(resultSet.getInt("isdelete"));
+					emailContent.setCreateTime(resultSet.getDate("createTime"));
+					emailContent.setModifyUser(resultSet.getString("modifyUser"));
+					listcontent.add(emailContent);
+				}
 
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
+				return listcontent;
+			}
+		} catch (SQLException e) {
+			return null;
+		}
 	}
 
 }

@@ -1,38 +1,38 @@
 package com.flying.email.bean;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * auth:flying date:2017年7月14日
  **/
-public class MainSubject  implements java.io.Serializable {
+public class MainSubject implements java.io.Serializable {
 	private Integer keyId;
 	private String subjectname;
 	private int isforbidden;
 	private int isdelete;
 	private Date createTime;
 	private String modifyUser;
-	private Date modifyTime;
 
 	public MainSubject() {
 	}
 
-	public MainSubject(String subjectname, int isforbidden, int isdelete, String modifyUser, Date modifyTime) {
+	public MainSubject(String subjectname, int isforbidden, int isdelete, String modifyUser) {
 		this.subjectname = subjectname;
 		this.isforbidden = isforbidden;
 		this.isdelete = isdelete;
 		this.modifyUser = modifyUser;
-		this.modifyTime = modifyTime;
 	}
 
-	public MainSubject(String subjectname, int isforbidden, int isdelete, Date createTime, String modifyUser,
-			Date modifyTime) {
+	public MainSubject(String subjectname, int isforbidden, int isdelete, Date createTime, String modifyUser) {
 		this.subjectname = subjectname;
 		this.isforbidden = isforbidden;
 		this.isdelete = isdelete;
 		this.createTime = createTime;
 		this.modifyUser = modifyUser;
-		this.modifyTime = modifyTime;
 	}
 
 	public Integer getKeyId() {
@@ -83,11 +83,32 @@ public class MainSubject  implements java.io.Serializable {
 		this.modifyUser = modifyUser;
 	}
 
-	public Date getModifyTime() {
-		return this.modifyTime;
-	}
+	/**
+	 * 
+	 * @param resultSet
+	 * @return
+	 */
+	private static List<MainSubject> TransFormModelList(ResultSet resultSet) {
+		try {
+			if (resultSet.wasNull()) {
+				return null;
+			} else {
+				ArrayList<MainSubject> listmainsubject = new ArrayList<MainSubject>();
+				while (resultSet.next()) {
+					MainSubject mainSubject = new MainSubject();
+					mainSubject.setKeyId(resultSet.getInt("keyid"));
+					mainSubject.setSubjectname(resultSet.getString("subjectname"));
+					mainSubject.setIsforbidden(resultSet.getInt("isforbidden"));
+					mainSubject.setIsdelete(resultSet.getInt("isdelete"));
+					mainSubject.setCreateTime(resultSet.getDate("createTime"));
+					mainSubject.setModifyUser(resultSet.getString("modifyUser"));
+					listmainsubject.add(mainSubject);
+				}
 
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
+				return listmainsubject;
+			}
+		} catch (SQLException e) {
+			return null;
+		}
 	}
 }

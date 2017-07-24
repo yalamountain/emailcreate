@@ -1,11 +1,15 @@
 package com.flying.email.bean;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * auth:flying date:2017年7月14日
  **/
-public class SubjectItems  implements java.io.Serializable {
+public class SubjectItems implements java.io.Serializable {
 	private Integer keyId;
 	private int subjectid;
 	private int execution;
@@ -65,7 +69,7 @@ public class SubjectItems  implements java.io.Serializable {
 		return this.execution;
 	}
 
-	public void setExecution(byte execution) {
+	public void setExecution(int execution) {
 		this.execution = execution;
 	}
 
@@ -89,7 +93,7 @@ public class SubjectItems  implements java.io.Serializable {
 		return this.isforbidden;
 	}
 
-	public void setIsforbidden(byte isforbidden) {
+	public void setIsforbidden(int isforbidden) {
 		this.isforbidden = isforbidden;
 	}
 
@@ -97,7 +101,7 @@ public class SubjectItems  implements java.io.Serializable {
 		return this.isdelete;
 	}
 
-	public void setIsdelete(byte isdelete) {
+	public void setIsdelete(int isdelete) {
 		this.isdelete = isdelete;
 	}
 
@@ -125,4 +129,36 @@ public class SubjectItems  implements java.io.Serializable {
 		this.modifyTime = modifyTime;
 	}
 
+	/**
+	 * 将数据结果转化为model
+	 * 
+	 * @param resultSet
+	 * @return
+	 */
+	public static List<SubjectItems> TransFormModelList(ResultSet resultSet) {
+		try {
+			if (resultSet.wasNull()) {
+				return null;
+			} else {
+				ArrayList<SubjectItems> listsubjectitems = new ArrayList<SubjectItems>();
+				while (resultSet.next()) {
+					SubjectItems subjectitems = new SubjectItems();
+					subjectitems.setKeyId(resultSet.getInt("keyid"));
+					subjectitems.setSubjectid(resultSet.getInt("subjectid"));
+					subjectitems.setExecution(resultSet.getInt("execution"));
+					subjectitems.setDataparam(resultSet.getString("dataparam"));
+					subjectitems.setFunctionname(resultSet.getString("functionname"));
+					subjectitems.setIsforbidden(resultSet.getInt("isforbidden"));
+					subjectitems.setIsdelete(resultSet.getInt("isdelete"));
+					subjectitems.setCreateTime(resultSet.getDate("createTime"));
+					subjectitems.setModifyUser(resultSet.getString("modifyUser"));
+					listsubjectitems.add(subjectitems);
+				}
+
+				return listsubjectitems;
+			}
+		} catch (SQLException e) {
+			return null;
+		}
+	}
 }

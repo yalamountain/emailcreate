@@ -1,6 +1,4 @@
 package com.flying.email.factory;
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;

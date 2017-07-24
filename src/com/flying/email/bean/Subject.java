@@ -1,31 +1,33 @@
 package com.flying.email.bean;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
- * auth:flying
- * date:2017年7月14日
+ * auth:flying date:2017年7月14日
  **/
-public class Subject  implements java.io.Serializable {
+public class Subject implements java.io.Serializable {
 	private Integer keyId;
 	private int mainsubjectid;
 	private String subjectname;
-	private byte datacycle;
-	private byte emailtype;
+	private int datacycle;
+	private int emailtype;
 	private Date delayTime;
 	private Date dataDateTime;
 	private int subjectlevel;
-	private byte isforbidden;
-	private byte isdelete;
+	private int isforbidden;
+	private int isdelete;
 	private Date createTime;
 	private String modifyUser;
-	private Date modifyTime;
 
 	public Subject() {
 	}
 
-	public Subject(int mainsubjectid, String subjectname, byte datacycle, byte emailtype, Date delayTime,
-			Date dataDateTime, int subjectlevel, byte isforbidden, byte isdelete, String modifyUser, Date modifyTime) {
+	public Subject(int mainsubjectid, String subjectname, int datacycle, int emailtype, Date delayTime,
+			Date dataDateTime, int subjectlevel, int isforbidden, int isdelete, String modifyUser) {
 		this.mainsubjectid = mainsubjectid;
 		this.subjectname = subjectname;
 		this.datacycle = datacycle;
@@ -36,12 +38,10 @@ public class Subject  implements java.io.Serializable {
 		this.isforbidden = isforbidden;
 		this.isdelete = isdelete;
 		this.modifyUser = modifyUser;
-		this.modifyTime = modifyTime;
 	}
 
-	public Subject(int mainsubjectid, String subjectname, byte datacycle, byte emailtype, Date delayTime,
-			Date dataDateTime, int subjectlevel, byte isforbidden, byte isdelete, Date createTime, String modifyUser,
-			Date modifyTime) {
+	public Subject(int mainsubjectid, String subjectname, int datacycle, int emailtype, Date delayTime,
+			Date dataDateTime, int subjectlevel, int isforbidden, int isdelete, Date createTime, String modifyUser) {
 		this.mainsubjectid = mainsubjectid;
 		this.subjectname = subjectname;
 		this.datacycle = datacycle;
@@ -53,7 +53,6 @@ public class Subject  implements java.io.Serializable {
 		this.isdelete = isdelete;
 		this.createTime = createTime;
 		this.modifyUser = modifyUser;
-		this.modifyTime = modifyTime;
 	}
 
 	public Integer getKeyId() {
@@ -80,19 +79,19 @@ public class Subject  implements java.io.Serializable {
 		this.subjectname = subjectname;
 	}
 
-	public byte getDatacycle() {
+	public int getDatacycle() {
 		return this.datacycle;
 	}
 
-	public void setDatacycle(byte datacycle) {
+	public void setDatacycle(int datacycle) {
 		this.datacycle = datacycle;
 	}
 
-	public byte getEmailtype() {
+	public int getEmailtype() {
 		return this.emailtype;
 	}
 
-	public void setEmailtype(byte emailtype) {
+	public void setEmailtype(int emailtype) {
 		this.emailtype = emailtype;
 	}
 
@@ -120,19 +119,19 @@ public class Subject  implements java.io.Serializable {
 		this.subjectlevel = subjectlevel;
 	}
 
-	public byte getIsforbidden() {
+	public int getIsforbidden() {
 		return this.isforbidden;
 	}
 
-	public void setIsforbidden(byte isforbidden) {
+	public void setIsforbidden(int isforbidden) {
 		this.isforbidden = isforbidden;
 	}
 
-	public byte getIsdelete() {
+	public int getIsdelete() {
 		return this.isdelete;
 	}
 
-	public void setIsdelete(byte isdelete) {
+	public void setIsdelete(int isdelete) {
 		this.isdelete = isdelete;
 	}
 
@@ -152,12 +151,39 @@ public class Subject  implements java.io.Serializable {
 		this.modifyUser = modifyUser;
 	}
 
-	public Date getModifyTime() {
-		return this.modifyTime;
-	}
+	/**
+	 * 将数据结果转化为model
+	 * 
+	 * @param resultSet
+	 * @return
+	 */
+	public static List<Subject> TransFormModelList(ResultSet resultSet) {
+		try {
+			if (resultSet.wasNull()) {
+				return null;
+			} else {
+				ArrayList<Subject> listsubject = new ArrayList<Subject>();
+				while (resultSet.next()) {
+					Subject subject = new Subject();
+					subject.setKeyId(resultSet.getInt("keyid"));
+					subject.setMainsubjectid(resultSet.getInt("mainsubject"));
+					subject.setSubjectname(resultSet.getString("subjectname"));
+					subject.setSubjectlevel(resultSet.getInt("subjectlevel"));
+					subject.setDatacycle(resultSet.getInt("datacycle"));
+					subject.setDelayTime(resultSet.getDate("delayTime"));
+					subject.setDataDateTime(resultSet.getDate("dataDateTime"));
+					subject.setSubjectlevel(resultSet.getInt("subjectlevel"));
+					subject.setIsforbidden(resultSet.getInt("isforbidden"));
+					subject.setIsdelete(resultSet.getInt("isdelete"));
+					subject.setCreateTime(resultSet.getDate("createTime"));
+					subject.setModifyUser(resultSet.getString("modifyUser"));
+					listsubject.add(subject);
+				}
 
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
+				return listsubject;
+			}
+		} catch (SQLException e) {
+			return null;
+		}
 	}
-
 }
