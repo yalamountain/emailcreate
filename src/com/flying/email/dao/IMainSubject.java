@@ -35,7 +35,7 @@ public interface IMainSubject {
 	 * @param listmainsubject
 	 * @return
 	 */
-	public int insertIntoTable(Connection connection, MainSubject listmainsubject);
+	public int insertIntoTable(Connection connection, MainSubject mainsubject);
 
 	/**
 	 * 批量插入数据
@@ -62,5 +62,5 @@ public interface IMainSubject {
 	 * @param sql
 	 * @return
 	 */
-	public int executeSql(Connection connection, String sql);
+	public boolean executeSql(Connection connection, String sql);
 }

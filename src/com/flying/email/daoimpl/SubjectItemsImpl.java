@@ -6,17 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.flying.email.bean.EmailContent;
-import com.flying.email.dao.IEmailContent;
+import com.flying.email.bean.Subject;
+import com.flying.email.bean.SubjectItems;
+import com.flying.email.dao.ISubjectItems;
 
 /**
- * auth:flying date:2017年7月18日
+ * auth:flying date:2017年7月25日
  **/
-public class EmailContentImpl implements IEmailContent {
+public class SubjectItemsImpl implements ISubjectItems {
 
 	@Override
-	public EmailContent getEailContent(Connection connection, String condtion) {
-		String sql = "select * from emailcontent where isdelete=0 ";
+	public SubjectItems getSubjectItems(Connection connection, String condtion) {
+		String sql = "select * from subjectitems where isdelete=0 ";
 		if (condtion.isEmpty() || condtion == null) {
 
 		} else {
@@ -28,7 +29,7 @@ public class EmailContentImpl implements IEmailContent {
 		try {
 			prep = connection.prepareStatement(sql);
 			resultSet = prep.executeQuery();
-			List<EmailContent> lisetresult = EmailContent.TransFormModelList(resultSet);
+			List<SubjectItems> lisetresult = SubjectItems.TransFormModelList(resultSet);
 			if (lisetresult != null && lisetresult.size() > 0) {
 				return lisetresult.get(0);
 			} else {
@@ -59,8 +60,8 @@ public class EmailContentImpl implements IEmailContent {
 	}
 
 	@Override
-	public List<EmailContent> getEailContentList(Connection connection, String condtion) {
-		String sql = "select * from emailcontent where isdelete=0 ";
+	public List<SubjectItems> getSubjectItemsList(Connection connection, String condtion) {
+		String sql = "select * from subjectitems where isdelete=0 ";
 		if (condtion.isEmpty() || condtion == null) {
 
 		} else {
@@ -72,13 +73,17 @@ public class EmailContentImpl implements IEmailContent {
 		try {
 			prep = connection.prepareStatement(sql);
 			resultSet = prep.executeQuery();
-			return EmailContent.TransFormModelList(resultSet);
+			List<SubjectItems> lisetresult = SubjectItems.TransFormModelList(resultSet);
+			if (lisetresult != null && lisetresult.size() > 0) {
+				return lisetresult;
+			} else {
+				return null;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		} finally {
-
 			try {
 				if (!resultSet.isClosed()) {
 					resultSet.close();
@@ -91,7 +96,6 @@ public class EmailContentImpl implements IEmailContent {
 				if (!connection.isClosed()) {
 					connection.close();
 				}
-
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -100,22 +104,19 @@ public class EmailContentImpl implements IEmailContent {
 	}
 
 	@Override
-	public int insertIntoTable(Connection connection, EmailContent emailContent) {
-		String sql = " insert into emailcontent(emailto,ccto,emailsubject,emailtype,attachemt,subjectlevel,issend,islock,locktime,isdelete,createtime) values(?,?,?,?,?,?,?,?,?,?,?)";
+	public int insertIntoTable(Connection connection, SubjectItems subjectitems) {
+		String sql = " insert into subjectitems(subjectid,execution,dataparam,functionname,isforbidden,isdelete,createtime) values(?,?,?,?"
+				+ ",?,?,?)";
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, emailContent.getEmailto());
-			preparedStatement.setString(2, emailContent.getCcto());
-			preparedStatement.setString(3, emailContent.getEmailsubject());
-			preparedStatement.setInt(4, emailContent.getEmailtype());
-			preparedStatement.setString(5, emailContent.getAttachment());
-			preparedStatement.setInt(6, emailContent.getSubjectlevel());
-			preparedStatement.setInt(7, emailContent.getIssened());
-			preparedStatement.setInt(8, emailContent.getIslock());
-			preparedStatement.setDate(9, (java.sql.Date) emailContent.getLocktime());
-			preparedStatement.setInt(10, emailContent.getIsdelete());
-			preparedStatement.setDate(11, (java.sql.Date) emailContent.getCreateTime());
+			preparedStatement.setInt(1, subjectitems.getSubjectid());
+			preparedStatement.setInt(2, subjectitems.getExecution());
+			preparedStatement.setString(3, subjectitems.getDataparam());
+			preparedStatement.setString(4, subjectitems.getFunctionname());
+			preparedStatement.setInt(5, subjectitems.getIsforbidden());
+			preparedStatement.setInt(6, subjectitems.getIsdelete());
+			preparedStatement.setDate(7, (java.sql.Date) subjectitems.getCreateTime());
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -135,23 +136,20 @@ public class EmailContentImpl implements IEmailContent {
 	}
 
 	@Override
-	public int insetIntoTbableList(Connection connection, List<EmailContent> listemailcontent) {
-		String sql = " insert into emailcontent(emailto,ccto,emailsubject,emailtype,attachemt,subjectlevel,issend,islock,locktime,isdelete,createtime) values(?,?,?,?,?,?,?,?,?,?,?)";
+	public int insetIntoTbableList(Connection connection, List<SubjectItems> listsubjectitems) {
+		String sql = " insert into subjectitems(subjectid,execution,dataparam,functionname,isforbidden,isdelete,createtime) values(?,?,?,?"
+				+ ",?,?,?)";
 		PreparedStatement preparedStatement = null;
 		try {
-			for (EmailContent emailContent : listemailcontent) {
+			for (SubjectItems subjectitems : listsubjectitems) {
 				preparedStatement = connection.prepareStatement(sql);
-				preparedStatement.setString(1, emailContent.getEmailto());
-				preparedStatement.setString(2, emailContent.getCcto());
-				preparedStatement.setString(3, emailContent.getEmailsubject());
-				preparedStatement.setInt(4, emailContent.getEmailtype());
-				preparedStatement.setString(5, emailContent.getAttachment());
-				preparedStatement.setInt(6, emailContent.getSubjectlevel());
-				preparedStatement.setInt(7, emailContent.getIssened());
-				preparedStatement.setInt(8, emailContent.getIslock());
-				preparedStatement.setDate(9, (java.sql.Date) emailContent.getLocktime());
-				preparedStatement.setInt(10, emailContent.getIsdelete());
-				preparedStatement.setDate(11, (java.sql.Date) emailContent.getCreateTime());
+				preparedStatement.setInt(1, subjectitems.getSubjectid());
+				preparedStatement.setInt(2, subjectitems.getExecution());
+				preparedStatement.setString(3, subjectitems.getDataparam());
+				preparedStatement.setString(4, subjectitems.getFunctionname());
+				preparedStatement.setInt(5, subjectitems.getIsforbidden());
+				preparedStatement.setInt(6, subjectitems.getIsdelete());
+				preparedStatement.setDate(7, (java.sql.Date) subjectitems.getCreateTime());
 				preparedStatement.addBatch();
 			}
 
@@ -174,24 +172,20 @@ public class EmailContentImpl implements IEmailContent {
 	}
 
 	@Override
-	public int updateEmailContent(Connection connection, EmailContent emailContent) {
-		String sql = " update emailcontent set emailto=?,ccto=?,emailsubject=?,emailtype=?,attachment=?,subjectlevel=?,issend=?,islock=?,locktime=?,isdelete=?,createTime=?,modifyuser=? where keyid=?";
+	public int updateSubjectItems(Connection connection, SubjectItems subjectitems) {
+		String sql = " update  subjectitems set subjectid=?,execution=?,dataparam=?,functionname=?,isforbidden=?,isdelete=?,createtime=?,modifyuser=? where keyid=? ";
 		PreparedStatement preparedStatement = null;
-
 		try {
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, emailContent.getEmailto());
-			preparedStatement.setString(2, emailContent.getCcto());
-			preparedStatement.setString(3, emailContent.getEmailsubject());
-			preparedStatement.setInt(4, emailContent.getEmailtype());
-			preparedStatement.setString(5, emailContent.getAttachment());
-			preparedStatement.setInt(6, emailContent.getSubjectlevel());
-			preparedStatement.setInt(7, emailContent.getIssened());
-			preparedStatement.setInt(8, emailContent.getIslock());
-			preparedStatement.setDate(9, (java.sql.Date) emailContent.getLocktime());
-			preparedStatement.setInt(10, emailContent.getIsdelete());
-			preparedStatement.setDate(11, (java.sql.Date) emailContent.getCreateTime());
-			preparedStatement.setInt(12, emailContent.getKeyId());
+			preparedStatement.setInt(1, subjectitems.getSubjectid());
+			preparedStatement.setInt(2, subjectitems.getExecution());
+			preparedStatement.setString(3, subjectitems.getDataparam());
+			preparedStatement.setString(4, subjectitems.getFunctionname());
+			preparedStatement.setInt(5, subjectitems.getIsforbidden());
+			preparedStatement.setInt(6, subjectitems.getIsdelete());
+			preparedStatement.setDate(7, (java.sql.Date) subjectitems.getCreateTime());
+			preparedStatement.setString(8, subjectitems.getModifyUser());
+			preparedStatement.setInt(9, subjectitems.getKeyId());
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

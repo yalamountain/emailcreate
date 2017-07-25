@@ -10,7 +10,7 @@ import com.flying.email.util.Encrypt;
  * auth:flying date:2017年7月14日
  **/
 public class ConnectionFactory {
-	private Connection connection = null;
+	private static Connection connection = null;
 
 	/**
 	 * 构造函数,初始化数据库连接
@@ -50,7 +50,7 @@ public class ConnectionFactory {
 	 * 
 	 * @return Connection
 	 */
-	public Connection getConnection() {
+	public static Connection getConnection() {
 		return connection;
 	}
 

@@ -62,5 +62,5 @@ public interface IFuncInfo {
 	 * @param sql
 	 * @return
 	 */
-	public int executeSql(Connection connection, String sql);
+	public boolean executeSql(Connection connection, String sql);
 }

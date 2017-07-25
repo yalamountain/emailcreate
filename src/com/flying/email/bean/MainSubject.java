@@ -88,7 +88,7 @@ public class MainSubject implements java.io.Serializable {
 	 * @param resultSet
 	 * @return
 	 */
-	private static List<MainSubject> TransFormModelList(ResultSet resultSet) {
+	public static List<MainSubject> TransFormModelList(ResultSet resultSet) {
 		try {
 			if (resultSet.wasNull()) {
 				return null;

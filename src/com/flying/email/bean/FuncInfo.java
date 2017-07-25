@@ -100,7 +100,7 @@ public class FuncInfo implements java.io.Serializable {
 	 * @param resultSet
 	 * @return
 	 */
-	private static List<FuncInfo> TransFormModelList(ResultSet resultSet) {
+	public static List<FuncInfo> TransFormModelList(ResultSet resultSet) {
 		try {
 			if (resultSet.wasNull()) {
 				return null;
