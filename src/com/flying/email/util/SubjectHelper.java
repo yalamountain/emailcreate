@@ -1,7 +1,15 @@
 package com.flying.email.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * auth:flying date:2017年7月25日
@@ -22,8 +30,12 @@ public class SubjectHelper {
 		long dtime = delayTime.getTime();
 		Calendar ca = Calendar.getInstance();
 		ca.setTime(calcDate);
+		long addseconds = 0L;
 		//// 计算时间,增加两个时间之间的时间差
-		ca.add(Calendar.SECOND, (int) (dtime - origintime));
+		if (dtime < 0) {
+			addseconds = origintime * (-1) + dtime;
+		}
+		ca.add(Calendar.MILLISECOND, (int) addseconds);
 		return ca.getTime();
 	}
 
@@ -59,5 +71,84 @@ public class SubjectHelper {
 		}
 
 		return calendar.getTime();
+	}
+
+	/**
+	 * 解析原Sql参数，获取真是sql
+	 * 
+	 * @param orisql
+	 *            原始sql
+	 * @param datadatetime
+	 *            数据时间
+	 * @return
+	 */
+	public static String getSqlString(String orisql, Date datadatetime) {
+		//// 获取当前的所有参数
+		TreeSet<String> listresult = getParam(orisql);
+		Iterator<String> iterable = listresult.iterator();
+		HashMap<String, String> parammap = new HashMap<String, String>();
+		while (iterable.hasNext()) {
+			parammap.put(iterable.next(), getParamValue(iterable.next(), datadatetime));
+		}
+
+		//// 遍历所有的参数，重新赋值并且替换原值
+		Iterator<Entry<String, String>> iterable2 = parammap.entrySet().iterator();
+		while (iterable2.hasNext()) {
+			@SuppressWarnings("rawtypes")
+			Map.Entry entry = (Entry) iterable2.next();
+			String key = (String) entry.getKey();
+			String value = (String) entry.getValue();
+			orisql = orisql.replaceAll("${" + key + "}", value);
+		}
+
+		return orisql;
+	}
+
+	/**
+	 * 获取当前所有参数
+	 * 
+	 * @param oristring
+	 * @return
+	 */
+	public static TreeSet<String> getParam(String oristring) {
+		TreeSet<String> result = new TreeSet<String>();
+		String regex = "\\$\\{(.*?)\\}";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(oristring);
+		while (matcher.find()) {
+			if (!result.contains(matcher.group(1))) {
+				result.add(matcher.group(1));
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * 获取参数对应的真实值
+	 * 
+	 * @param param
+	 *            数据参数
+	 * @param datetime
+	 *            数据时间
+	 * @return
+	 */
+	public static String getParamValue(String param, Date datetime) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+		String dateString = formatter.format(datetime);
+		switch (param.toLowerCase()) {
+		case "datadatetime":
+			return datetime.toString();
+		case "yyyymmddhh":
+			return dateString.substring(0, 10);
+		case "yyyymmdd":
+			return dateString.substring(0, 8);
+		case "yyyymm":
+			return dateString.substring(0, 6);
+		case "yyyy":
+			return dateString.substring(0, 4);
+		default:
+			return datetime.toString();
+		}
 	}
 }

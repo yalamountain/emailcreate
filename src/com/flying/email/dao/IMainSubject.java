@@ -3,7 +3,6 @@ package com.flying.email.dao;
 import java.sql.Connection;
 import java.util.List;
 
-import com.flying.email.bean.FuncInfo;
 import com.flying.email.bean.MainSubject;
 
 /**

@@ -2,24 +2,24 @@ package com.flying.email.bean;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * auth:flying date:2017年7月14日
  **/
+@SuppressWarnings("serial")
 public class SubjectItems implements java.io.Serializable {
-	private Integer keyId;
-	private int subjectid;
-	private int execution;
-	private String dataparam;
-	private String functionname;
-	private int isforbidden;
-	private int isdelete;
-	private Date createTime;
-	private String modifyUser;
-	private Date modifyTime;
+	private Integer keyId = 0;
+	private int subjectid = 0;
+	private int execution = 0;
+	private String dataparam = "";
+	private String functionname = "";
+	private int isforbidden = 0;
+	private int isdelete = 0;
+	private Date createTime = new Date();
+	private String modifyUser = "";
+	private Date modifyTime = new Date();
 
 	public SubjectItems() {
 	}
@@ -135,12 +135,12 @@ public class SubjectItems implements java.io.Serializable {
 	 * @param resultSet
 	 * @return
 	 */
-	public static List<SubjectItems> TransFormModelList(ResultSet resultSet) {
+	public static LinkedList<SubjectItems> TransFormModelList(ResultSet resultSet) {
 		try {
 			if (resultSet.wasNull()) {
 				return null;
 			} else {
-				ArrayList<SubjectItems> listsubjectitems = new ArrayList<SubjectItems>();
+				LinkedList<SubjectItems> listsubjectitems = new LinkedList<SubjectItems>();
 				while (resultSet.next()) {
 					SubjectItems subjectitems = new SubjectItems();
 					subjectitems.setKeyId(resultSet.getInt("keyid"));
@@ -150,7 +150,7 @@ public class SubjectItems implements java.io.Serializable {
 					subjectitems.setFunctionname(resultSet.getString("functionname"));
 					subjectitems.setIsforbidden(resultSet.getInt("isforbidden"));
 					subjectitems.setIsdelete(resultSet.getInt("isdelete"));
-					subjectitems.setCreateTime(resultSet.getDate("createTime"));
+					subjectitems.setCreateTime(resultSet.getTimestamp("createTime"));
 					subjectitems.setModifyUser(resultSet.getString("modifyUser"));
 					listsubjectitems.add(subjectitems);
 				}

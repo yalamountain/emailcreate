@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.flying.email.bean.EmailContent;
@@ -113,9 +114,9 @@ public class EmailContentImpl implements IEmailContent {
 			preparedStatement.setInt(6, emailContent.getSubjectlevel());
 			preparedStatement.setInt(7, emailContent.getIssened());
 			preparedStatement.setInt(8, emailContent.getIslock());
-			preparedStatement.setDate(9, (java.sql.Date) emailContent.getLocktime());
+			preparedStatement.setTimestamp(9, (Timestamp) emailContent.getLocktime());
 			preparedStatement.setInt(10, emailContent.getIsdelete());
-			preparedStatement.setDate(11, (java.sql.Date) emailContent.getCreateTime());
+			preparedStatement.setTimestamp(11, (Timestamp) emailContent.getCreateTime());
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -149,9 +150,9 @@ public class EmailContentImpl implements IEmailContent {
 				preparedStatement.setInt(6, emailContent.getSubjectlevel());
 				preparedStatement.setInt(7, emailContent.getIssened());
 				preparedStatement.setInt(8, emailContent.getIslock());
-				preparedStatement.setDate(9, (java.sql.Date) emailContent.getLocktime());
+				preparedStatement.setTimestamp(9, (Timestamp) emailContent.getLocktime());
 				preparedStatement.setInt(10, emailContent.getIsdelete());
-				preparedStatement.setDate(11, (java.sql.Date) emailContent.getCreateTime());
+				preparedStatement.setTimestamp(11, (Timestamp) emailContent.getCreateTime());
 				preparedStatement.addBatch();
 			}
 
@@ -188,9 +189,9 @@ public class EmailContentImpl implements IEmailContent {
 			preparedStatement.setInt(6, emailContent.getSubjectlevel());
 			preparedStatement.setInt(7, emailContent.getIssened());
 			preparedStatement.setInt(8, emailContent.getIslock());
-			preparedStatement.setDate(9, (java.sql.Date) emailContent.getLocktime());
+			preparedStatement.setTimestamp(9, (Timestamp) emailContent.getLocktime());
 			preparedStatement.setInt(10, emailContent.getIsdelete());
-			preparedStatement.setDate(11, (java.sql.Date) emailContent.getCreateTime());
+			preparedStatement.setTimestamp(11, (Timestamp) emailContent.getCreateTime());
 			preparedStatement.setInt(12, emailContent.getKeyId());
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {

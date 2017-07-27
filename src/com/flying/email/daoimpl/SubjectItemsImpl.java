@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
-import com.flying.email.bean.Subject;
 import com.flying.email.bean.SubjectItems;
 import com.flying.email.dao.ISubjectItems;
 
@@ -116,7 +116,7 @@ public class SubjectItemsImpl implements ISubjectItems {
 			preparedStatement.setString(4, subjectitems.getFunctionname());
 			preparedStatement.setInt(5, subjectitems.getIsforbidden());
 			preparedStatement.setInt(6, subjectitems.getIsdelete());
-			preparedStatement.setDate(7, (java.sql.Date) subjectitems.getCreateTime());
+			preparedStatement.setTimestamp(7, (Timestamp) subjectitems.getCreateTime());
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -149,7 +149,7 @@ public class SubjectItemsImpl implements ISubjectItems {
 				preparedStatement.setString(4, subjectitems.getFunctionname());
 				preparedStatement.setInt(5, subjectitems.getIsforbidden());
 				preparedStatement.setInt(6, subjectitems.getIsdelete());
-				preparedStatement.setDate(7, (java.sql.Date) subjectitems.getCreateTime());
+				preparedStatement.setTimestamp(7, (Timestamp) subjectitems.getCreateTime());
 				preparedStatement.addBatch();
 			}
 
@@ -183,7 +183,7 @@ public class SubjectItemsImpl implements ISubjectItems {
 			preparedStatement.setString(4, subjectitems.getFunctionname());
 			preparedStatement.setInt(5, subjectitems.getIsforbidden());
 			preparedStatement.setInt(6, subjectitems.getIsdelete());
-			preparedStatement.setDate(7, (java.sql.Date) subjectitems.getCreateTime());
+			preparedStatement.setTimestamp(7, (Timestamp) subjectitems.getCreateTime());
 			preparedStatement.setString(8, subjectitems.getModifyUser());
 			preparedStatement.setInt(9, subjectitems.getKeyId());
 			return preparedStatement.executeUpdate();

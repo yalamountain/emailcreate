@@ -1,4 +1,5 @@
 package com.flying.email.factory;
+
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -36,12 +37,12 @@ public class ConnectionFactory {
 		String username = properties.getProperty("user").trim();
 		String password = Encrypt.aesDecrypt(properties.getProperty("password").trim());
 		String jdbcurl = properties.getProperty("jdbcUrl").trim();
-		String drivercalss = properties.getProperty("driver").trim();
+		String drivercalss = properties.getProperty("driverclass").trim();
 		Driver driver = (Driver) Class.forName(drivercalss).newInstance();
 		Properties dbinfo = new Properties();
 		dbinfo.setProperty("user", username);
 		dbinfo.setProperty("password", password);
-		Connection connection = driver.connect(jdbcurl, properties);
+		Connection connection = driver.connect(jdbcurl, dbinfo);
 		return connection;
 	}
 

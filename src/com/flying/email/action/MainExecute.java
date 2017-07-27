@@ -1,9 +1,8 @@
 package com.flying.email.action;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
+import com.flying.email.bean.MainSubject;
+import com.flying.email.service.MainSubjectService;
 
 /**
  * auth:flying date:2017年7月25日
@@ -16,17 +15,24 @@ public class MainExecute {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
-		System.out.println(df.format(new Date()) + "  " + "Begin Analysis!");
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-		try {
-			long origintime = dateFormat.parse("1900-01-01 00:00:00").getTime();
-			System.out.println(origintime);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		System.out.println("Begin Analysis");
+		while (true) {
+			MainSubjectService mainSubjectService = new MainSubjectService();
+			List<MainSubject> listmainsubject = mainSubjectService.GetAllMainSubjec();
+			if (listmainsubject == null || listmainsubject.size() == 0) {
+				//// 如果当前没有需要分析的项目，则休眠10S
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				//// 依次遍历每一个主项目
+				for (MainSubject mainSubject : listmainsubject) {
+					mainSubjectService.ExecuteMainsubject(mainSubject);
+				}
+			}
 		}
 	}
 }

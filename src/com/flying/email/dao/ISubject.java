@@ -1,9 +1,9 @@
 package com.flying.email.dao;
 
 import java.sql.Connection;
+import java.util.LinkedList;
 import java.util.List;
 
-import com.flying.email.bean.MainSubject;
 import com.flying.email.bean.Subject;
 
 /**
@@ -26,7 +26,7 @@ public interface ISubject {
 	 * @param condtion
 	 * @return
 	 */
-	public List<Subject> getSubjectList(Connection connection, String condtion);
+	public LinkedList<Subject> getSubjectList(Connection connection, String condtion);
 
 	/**
 	 * 插入单个项目信息

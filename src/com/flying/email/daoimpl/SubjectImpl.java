@@ -4,9 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.LinkedList;
 import java.util.List;
 
-import com.flying.email.bean.MainSubject;
 import com.flying.email.bean.Subject;
 import com.flying.email.dao.ISubject;
 
@@ -17,7 +18,7 @@ public class SubjectImpl implements ISubject {
 
 	@Override
 	public Subject getSubject(Connection connection, String condtion) {
-		String sql = "select * from subject where isdelete=0 ";
+		String sql = "select * from subject where isdelete=0 . ";
 		if (condtion.isEmpty() || condtion == null) {
 
 		} else {
@@ -60,7 +61,7 @@ public class SubjectImpl implements ISubject {
 	}
 
 	@Override
-	public List<Subject> getSubjectList(Connection connection, String condtion) {
+	public LinkedList<Subject> getSubjectList(Connection connection, String condtion) {
 		String sql = "select * from subject where isdelete=0 ";
 		if (condtion.isEmpty() || condtion == null) {
 
@@ -73,7 +74,7 @@ public class SubjectImpl implements ISubject {
 		try {
 			prep = connection.prepareStatement(sql);
 			resultSet = prep.executeQuery();
-			List<Subject> lisetresult = Subject.TransFormModelList(resultSet);
+			LinkedList<Subject> lisetresult = Subject.TransFormModelList(resultSet);
 			if (lisetresult != null && lisetresult.size() > 0) {
 				return lisetresult;
 			} else {
@@ -114,12 +115,12 @@ public class SubjectImpl implements ISubject {
 			preparedStatement.setString(2, subject.getSubjectname());
 			preparedStatement.setInt(3, subject.getDatacycle());
 			preparedStatement.setInt(4, subject.getEmailtype());
-			preparedStatement.setDate(5, (java.sql.Date) subject.getDelayTime());
-			preparedStatement.setDate(6, (java.sql.Date) subject.getDataDateTime());
+			preparedStatement.setTimestamp(5, (Timestamp) subject.getDelayTime());
+			preparedStatement.setTimestamp(6, (Timestamp) subject.getDataDateTime());
 			preparedStatement.setInt(7, subject.getSubjectlevel());
 			preparedStatement.setInt(8, subject.getIsforbidden());
 			preparedStatement.setInt(9, subject.getIsdelete());
-			preparedStatement.setDate(10, (java.sql.Date) subject.getCreateTime());
+			preparedStatement.setTimestamp(10, (Timestamp) subject.getCreateTime());
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -150,12 +151,12 @@ public class SubjectImpl implements ISubject {
 				preparedStatement.setString(2, subject.getSubjectname());
 				preparedStatement.setInt(3, subject.getDatacycle());
 				preparedStatement.setInt(4, subject.getEmailtype());
-				preparedStatement.setDate(5, (java.sql.Date) subject.getDelayTime());
-				preparedStatement.setDate(6, (java.sql.Date) subject.getDataDateTime());
+				preparedStatement.setTimestamp(5, (Timestamp) subject.getDelayTime());
+				preparedStatement.setTimestamp(6, (Timestamp) subject.getDataDateTime());
 				preparedStatement.setInt(7, subject.getSubjectlevel());
 				preparedStatement.setInt(8, subject.getIsforbidden());
 				preparedStatement.setInt(9, subject.getIsdelete());
-				preparedStatement.setDate(10, (java.sql.Date) subject.getCreateTime());
+				preparedStatement.setTimestamp(10, (Timestamp) subject.getCreateTime());
 				preparedStatement.addBatch();
 			}
 
@@ -187,12 +188,12 @@ public class SubjectImpl implements ISubject {
 			preparedStatement.setString(2, subject.getSubjectname());
 			preparedStatement.setInt(3, subject.getDatacycle());
 			preparedStatement.setInt(4, subject.getEmailtype());
-			preparedStatement.setDate(5, (java.sql.Date) subject.getDelayTime());
-			preparedStatement.setDate(6, (java.sql.Date) subject.getDataDateTime());
+			preparedStatement.setTimestamp(5, (Timestamp) subject.getDelayTime());
+			preparedStatement.setTimestamp(6, (Timestamp) subject.getDataDateTime());
 			preparedStatement.setInt(7, subject.getSubjectlevel());
 			preparedStatement.setInt(8, subject.getIsforbidden());
 			preparedStatement.setInt(9, subject.getIsdelete());
-			preparedStatement.setDate(10, (java.sql.Date) subject.getCreateTime());
+			preparedStatement.setTimestamp(10, (Timestamp) subject.getCreateTime());
 			preparedStatement.setString(11, subject.getModifyUser());
 			preparedStatement.setInt(12, subject.getKeyId());
 			return preparedStatement.executeUpdate();

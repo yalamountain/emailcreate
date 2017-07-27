@@ -27,6 +27,7 @@ public class Encrypt {
 	 * @param b
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private static String byte2HexStr(byte[] b) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < b.length; i++) {
@@ -47,6 +48,7 @@ public class Encrypt {
 	 * @param s
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private static byte[] str2ByteArray(String s) {
 		int byteArrayLength = s.length() / 2;
 		byte[] b = new byte[byteArrayLength];

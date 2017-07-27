@@ -2,26 +2,27 @@ package com.flying.email.bean;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * auth:flying date:2017年7月14日
  **/
+@SuppressWarnings("serial")
 public class Subject implements java.io.Serializable {
-	private Integer keyId;
-	private int mainsubjectid;
-	private String subjectname;
-	private int datacycle;
-	private int emailtype;
-	private Date delayTime;
-	private Date dataDateTime;
-	private int subjectlevel;
-	private int isforbidden;
-	private int isdelete;
-	private Date createTime;
-	private String modifyUser;
+	private Integer keyId = 0;
+	private int mainsubjectid = 0;
+	private String subjectname = "";
+	private int datacycle = 1;
+	private int emailtype = 0;
+	private Date delayTime = new Date();
+	private Date dataDateTime = new Date();
+	private Date runDateTime = new Date();
+	private int subjectlevel = 0;
+	private int isforbidden = 0;
+	private int isdelete = 0;
+	private Date createTime = new Date();
+	private String modifyUser = "";
 
 	public Subject() {
 	}
@@ -111,6 +112,14 @@ public class Subject implements java.io.Serializable {
 		this.dataDateTime = dataDateTime;
 	}
 
+	public Date getRunDateTime() {
+		return this.runDateTime;
+	}
+
+	public void setRunDateTime(Date rundatetime) {
+		this.runDateTime = rundatetime;
+	}
+
 	public int getSubjectlevel() {
 		return this.subjectlevel;
 	}
@@ -157,25 +166,26 @@ public class Subject implements java.io.Serializable {
 	 * @param resultSet
 	 * @return
 	 */
-	public static List<Subject> TransFormModelList(ResultSet resultSet) {
+	public static LinkedList<Subject> TransFormModelList(ResultSet resultSet) {
 		try {
 			if (resultSet.wasNull()) {
 				return null;
 			} else {
-				ArrayList<Subject> listsubject = new ArrayList<Subject>();
+				LinkedList<Subject> listsubject = new LinkedList<Subject>();
 				while (resultSet.next()) {
 					Subject subject = new Subject();
 					subject.setKeyId(resultSet.getInt("keyid"));
-					subject.setMainsubjectid(resultSet.getInt("mainsubject"));
+					subject.setMainsubjectid(resultSet.getInt("mainsubjectid"));
 					subject.setSubjectname(resultSet.getString("subjectname"));
 					subject.setSubjectlevel(resultSet.getInt("subjectlevel"));
 					subject.setDatacycle(resultSet.getInt("datacycle"));
-					subject.setDelayTime(resultSet.getDate("delayTime"));
-					subject.setDataDateTime(resultSet.getDate("dataDateTime"));
+					subject.setDelayTime(resultSet.getTimestamp("delayTime"));
+					subject.setDataDateTime(resultSet.getTimestamp("dataDateTime"));
+					subject.setRunDateTime(resultSet.getTimestamp("rundatetime"));
 					subject.setSubjectlevel(resultSet.getInt("subjectlevel"));
 					subject.setIsforbidden(resultSet.getInt("isforbidden"));
 					subject.setIsdelete(resultSet.getInt("isdelete"));
-					subject.setCreateTime(resultSet.getDate("createTime"));
+					subject.setCreateTime(resultSet.getTimestamp("createTime"));
 					subject.setModifyUser(resultSet.getString("modifyUser"));
 					listsubject.add(subject);
 				}
@@ -183,6 +193,7 @@ public class Subject implements java.io.Serializable {
 				return listsubject;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

@@ -2,30 +2,27 @@ package com.flying.email.bean;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import javax.swing.text.ElementIterator;
+import java.util.LinkedList;
 
 /**
  * auth:flying date:2017年7月14日
  **/
 @SuppressWarnings("serial")
 public class EmailContent implements java.io.Serializable {
-	private Integer keyId;
-	private String emailto;
-	private String ccto;
-	private String emailsubject;
-	private int emailtype;
-	private String attachment;
-	private int subjectlevel;
-	private int issened;
-	private int islock;
-	private Date locktime;
-	private int isdelete;
-	private Date createTime;
-	private String modifyUser;
+	private Integer keyId = 0;
+	private String emailto = "";
+	private String ccto = "";
+	private String emailsubject = "";
+	private int emailtype = 0;
+	private String attachment = "";
+	private int subjectlevel = 0;
+	private int issened = 0;
+	private int islock = 0;
+	private Date locktime = new Date();
+	private int isdelete = 0;
+	private Date createTime = new Date();
+	private String modifyUser = "";
 
 	public EmailContent() {
 	}
@@ -172,12 +169,12 @@ public class EmailContent implements java.io.Serializable {
 	 * @param resultSet
 	 * @return
 	 */
-	public static List<EmailContent> TransFormModelList(ResultSet resultSet) {
+	public static LinkedList<EmailContent> TransFormModelList(ResultSet resultSet) {
 		try {
 			if (resultSet.wasNull()) {
 				return null;
 			} else {
-				ArrayList<EmailContent> listcontent = new ArrayList<EmailContent>();
+				LinkedList<EmailContent> listcontent = new LinkedList<EmailContent>();
 				while (resultSet.next()) {
 					EmailContent emailContent = new EmailContent();
 					emailContent.setKeyId(resultSet.getInt("keyid"));
@@ -190,7 +187,7 @@ public class EmailContent implements java.io.Serializable {
 					emailContent.setIssened(resultSet.getInt("issend"));
 					emailContent.setIslock(resultSet.getInt("islock"));
 					emailContent.setIsdelete(resultSet.getInt("isdelete"));
-					emailContent.setCreateTime(resultSet.getDate("createTime"));
+					emailContent.setCreateTime(resultSet.getTimestamp("createTime"));
 					emailContent.setModifyUser(resultSet.getString("modifyUser"));
 					listcontent.add(emailContent);
 				}

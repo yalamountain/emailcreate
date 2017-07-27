@@ -3,13 +3,10 @@ package com.flying.email.dao;
 import java.sql.Connection;
 import java.util.List;
 
-import com.flying.email.bean.MainSubject;
-import com.flying.email.bean.Subject;
 import com.flying.email.bean.SubjectItems;
 
 /**
- * auth:flying
- * date:2017年7月18日
+ * auth:flying date:2017年7月18日
  **/
 public interface ISubjectItems {
 	/**
