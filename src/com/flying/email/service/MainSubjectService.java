@@ -3,9 +3,6 @@ package com.flying.email.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-
-import javax.lang.model.element.VariableElement;
-
 import com.flying.email.bean.MainSubject;
 import com.flying.email.bean.Subject;
 import com.flying.email.dao.IMainSubject;
@@ -26,6 +23,7 @@ public class MainSubjectService {
 	/**
 	 * 构造函数
 	 */
+	@SuppressWarnings("static-access")
 	public MainSubjectService() {
 		this.iMainSubject = new MainSubjectImpl();
 

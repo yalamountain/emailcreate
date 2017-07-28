@@ -18,6 +18,7 @@ public class ConnectionFactory {
 	 * 
 	 * @throws Exception
 	 */
+	@SuppressWarnings("static-access")
 	public ConnectionFactory() throws Exception {
 		this.connection = this.getEamilConnection();
 	}

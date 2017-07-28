@@ -3,8 +3,10 @@ package com.flying.email.service;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.flying.email.bean.EmailPerson;
@@ -28,6 +30,7 @@ public class SubjectItemsService {
 	/**
 	 * 构造函数
 	 */
+	@SuppressWarnings("static-access")
 	public SubjectItemsService() {
 		this.iSubjectItems = new SubjectItemsImpl();
 		try {
@@ -62,6 +65,7 @@ public class SubjectItemsService {
 	}
 
 	//// 根据内容获取邮件收件人
+	@SuppressWarnings("unchecked")
 	public List<EmailPerson> getEmailPerson(String functionname, String param) {
 		List<EmailPerson> listperson = new ArrayList<EmailPerson>();
 		FuncInfo funcInfo = (new FuncinfoService()).getFuncInfoByFunctionName(functionname);
@@ -70,6 +74,7 @@ public class SubjectItemsService {
 		} else {
 			try {
 				//// 反射映射出需要分析的类
+				@SuppressWarnings("rawtypes")
 				Class classtemp = Class.forName(funcInfo.getClassName().trim());
 				Method method = classtemp.getMethod(funcInfo.getFunctionname(), String.class);
 				listperson = (List<EmailPerson>) method.invoke(classtemp.newInstance(), param);
@@ -81,5 +86,38 @@ public class SubjectItemsService {
 		}
 
 		return listperson;
+	}
+
+	/**
+	 * 根据函数名、数据参数、数据分析时间获取数据查询结果
+	 * 
+	 * @param functionname
+	 *            反射的函数名
+	 * @param param
+	 *            数据参数
+	 * @param datadatetime
+	 *            数据时间
+	 * @return
+	 */
+	public ResultSet getDataSet(String functionname, String param, Date datadatetime) {
+		FuncInfo funcInfo = (new FuncinfoService()).getFuncInfoByFunctionName(functionname);
+		if (funcInfo == null) {
+			return null;
+		} else {
+			try {
+				//// 反射映射出需要分析的类
+				@SuppressWarnings("rawtypes")
+				Class classtemp = Class.forName(funcInfo.getClassName().trim());
+				@SuppressWarnings("unchecked")
+				Method method = classtemp.getMethod(funcInfo.getFunctionname(), String.class, Date.class);
+				return (ResultSet) method.invoke(classtemp.newInstance(), param, datadatetime);
+			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException | InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return null;
 	}
 }

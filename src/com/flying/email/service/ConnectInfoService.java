@@ -4,9 +4,7 @@ import java.sql.Connection;
 
 import com.flying.email.bean.ConnectInfo;
 import com.flying.email.dao.IConnectinfo;
-import com.flying.email.dao.IEmailContent;
 import com.flying.email.daoimpl.ConnectInfoImpl;
-import com.flying.email.daoimpl.EmailContentImpl;
 import com.flying.email.factory.ConnectionFactory;
 
 /**
@@ -23,6 +21,7 @@ public class ConnectInfoService {
 	/**
 	 * 构造函数
 	 */
+	@SuppressWarnings("static-access")
 	public ConnectInfoService() {
 		this.iConnectinfo = new ConnectInfoImpl();
 		try {

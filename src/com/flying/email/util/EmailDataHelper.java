@@ -31,7 +31,7 @@ public class EmailDataHelper {
 			return null;
 		} else {
 			String sqlStr = SubjectHelper.getSqlString(paStrings[0].replaceAll("Sql:", ""), datadatetime);
-			String connectStr = paStrings[1].replaceAll("Connection:", paStrings[1]);
+			String connectStr = paStrings[1].replaceAll("Connection:", "").trim();
 			return getResultByConnect(sqlStr, connectStr);
 		}
 	}
@@ -48,43 +48,46 @@ public class EmailDataHelper {
 		if (connectstr != null && connectstr != "") {
 			ConnectInfoService connectInfoService = new ConnectInfoService();
 			ConnectInfo connectInfo = connectInfoService.getConnectionInfoByAccount(connectstr.trim());
-			String username = connectInfo.getUseraccount().trim();
-			String password = Encrypt.aesDecrypt(connectInfo.getUserpassword().trim());
-			String jdbcurl = "jdbc:mysql://" + connectInfo.getIpaddress() + ":3306";
-			String drivercalss = "com.mysql.jdbc.Driver";
-			Driver driver;
-			Connection connection = null;
-			PreparedStatement prep = null;
-			ResultSet resultSet = null;
-			try {
-				driver = (Driver) Class.forName(drivercalss).newInstance();
-				Properties dbinfo = new Properties();
-				dbinfo.setProperty("user", username);
-				dbinfo.setProperty("password", password);
-				connection = driver.connect(jdbcurl, dbinfo);
-				prep = connection.prepareStatement(sqlstr);
-				resultSet = prep.executeQuery();
-				return resultSet;
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
+			if (connectInfo != null) {
+				String username = connectInfo.getUseraccount().trim();
+				String password = Encrypt.aesDecrypt(connectInfo.getUserpassword().trim());
+				String jdbcurl = "jdbc:mysql://" + connectInfo.getIpaddress() + ":3306/"
+						+ connectInfo.getDataBaseName().trim();
+				String drivercalss = "com.mysql.jdbc.Driver";
+				Driver driver;
+				Connection connection = null;
+				PreparedStatement prep = null;
+				ResultSet resultSet = null;
 				try {
-					if (!connection.isClosed()) {
-						connection.close();
-					}
+					driver = (Driver) Class.forName(drivercalss).newInstance();
+					Properties dbinfo = new Properties();
+					dbinfo.setProperty("user", username);
+					dbinfo.setProperty("password", password);
+					connection = driver.connect(jdbcurl, dbinfo);
+					prep = connection.prepareStatement(sqlstr);
+					resultSet = prep.executeQuery();
+					return resultSet;
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} finally {
+//					try {
+////						if (!connection.isClosed()) {
+////							connection.close();
+////						}
+//					} catch (SQLException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
 			}
 		}

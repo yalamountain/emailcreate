@@ -16,6 +16,7 @@ public class ConnectInfo implements java.io.Serializable {
 	private String useraccount = "";
 	private String userpassword = "";
 	private String ipaddress = "";
+	private String databasename = "";
 	private Date createtime = new Date();
 	private String modifyUser = "";
 
@@ -70,6 +71,14 @@ public class ConnectInfo implements java.io.Serializable {
 		this.useraccount = useraccount;
 	}
 
+	public String getDataBaseName() {
+		return databasename;
+	}
+
+	public void setDataBaseName(String databasename) {
+		this.databasename = databasename;
+	}
+
 	public String getUserpassword() {
 		return userpassword;
 	}
@@ -122,6 +131,7 @@ public class ConnectInfo implements java.io.Serializable {
 					connectInfo.setUseraccount(resultSet.getString("useraccount"));
 					connectInfo.setUserpassword(resultSet.getString("userpassword"));
 					connectInfo.setIpaddress(resultSet.getString("ipaddress"));
+					connectInfo.setDataBaseName(resultSet.getString("databasename"));
 					connectInfo.setCreatetime(resultSet.getTimestamp("createTime"));
 					connectInfo.setModifyUser(resultSet.getString("modifyUser"));
 					listcontent.add(connectInfo);

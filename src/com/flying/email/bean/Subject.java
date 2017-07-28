@@ -179,6 +179,7 @@ public class Subject implements java.io.Serializable {
 					subject.setSubjectname(resultSet.getString("subjectname"));
 					subject.setSubjectlevel(resultSet.getInt("subjectlevel"));
 					subject.setDatacycle(resultSet.getInt("datacycle"));
+					subject.setEmailtype(resultSet.getInt("emailtype"));
 					subject.setDelayTime(resultSet.getTimestamp("delayTime"));
 					subject.setDataDateTime(resultSet.getTimestamp("dataDateTime"));
 					subject.setRunDateTime(resultSet.getTimestamp("rundatetime"));

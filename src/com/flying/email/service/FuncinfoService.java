@@ -21,6 +21,7 @@ public class FuncinfoService {
 	/**
 	 * 构造函数
 	 */
+	@SuppressWarnings("static-access")
 	public FuncinfoService() {
 		this.iFuncInfo = new FuncInfoImpl();
 		try {
