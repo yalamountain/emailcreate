@@ -2,9 +2,7 @@ package com.flying.email.service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,21 +22,11 @@ public class SubjectItemsService {
 	//// 操作接口
 	private ISubjectItems iSubjectItems = null;
 
-	//// 获取数据库链接
-	private Connection connection = null;
-
 	/**
 	 * 构造函数
 	 */
-	@SuppressWarnings("static-access")
 	public SubjectItemsService() {
 		this.iSubjectItems = new SubjectItemsImpl();
-		try {
-			this.connection = new ConnectionFactory().getConnection();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -49,19 +37,8 @@ public class SubjectItemsService {
 	 */
 	public List<SubjectItems> getSubjectItemsBySubjectId(int subjectid) {
 		String condition = "  subjectid=" + subjectid + " order by execution asc ";
-		List<SubjectItems> lItems = this.iSubjectItems.getSubjectItemsList(this.connection, condition);
+		return this.iSubjectItems.getSubjectItemsList(ConnectionFactory.getConnection(), condition);
 
-		try {
-			if (!this.connection.isClosed()) {
-				this.connection.close();
-			}
-
-			return lItems;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	//// 根据内容获取邮件收件人

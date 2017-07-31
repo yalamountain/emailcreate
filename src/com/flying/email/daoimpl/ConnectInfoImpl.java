@@ -46,10 +46,6 @@ public class ConnectInfoImpl implements IConnectinfo {
 				if (!prep.isClosed()) {
 					prep.close();
 				}
-
-				if (!connection.isClosed()) {
-					connection.close();
-				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -89,10 +85,6 @@ public class ConnectInfoImpl implements IConnectinfo {
 
 				if (!prep.isClosed()) {
 					prep.close();
-				}
-
-				if (!connection.isClosed()) {
-					connection.close();
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

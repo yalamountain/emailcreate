@@ -15,13 +15,13 @@ public class Subject implements java.io.Serializable {
 	private String subjectname = "";
 	private int datacycle = 1;
 	private int emailtype = 0;
-	private Date delayTime = new Date();
-	private Date dataDateTime = new Date();
-	private Date runDateTime = new Date();
+	private Date delayTime = new Date(-2209017600000L);
+	private Date dataDateTime = new Date(-2209017600000L);
+	private Date runDateTime = new Date(-2209017600000L);
 	private int subjectlevel = 0;
 	private int isforbidden = 0;
 	private int isdelete = 0;
-	private Date createTime = new Date();
+	private Date createTime = new Date(-2209017600000L);
 	private String modifyUser = "";
 
 	public Subject() {

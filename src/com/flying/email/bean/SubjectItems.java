@@ -17,9 +17,9 @@ public class SubjectItems implements java.io.Serializable {
 	private String functionname = "";
 	private int isforbidden = 0;
 	private int isdelete = 0;
-	private Date createTime = new Date();
+	private Date createTime = new Date(-2209017600000L);
 	private String modifyUser = "";
-	private Date modifyTime = new Date();
+	private Date modifyTime = new Date(-2209017600000L);
 
 	public SubjectItems() {
 	}

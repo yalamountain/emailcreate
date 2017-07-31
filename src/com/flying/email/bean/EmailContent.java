@@ -17,25 +17,26 @@ public class EmailContent implements java.io.Serializable {
 	private int emailtype = 0;
 	private String attachment = "";
 	private int subjectlevel = 0;
-	private int issened = 0;
+	private String emailcontent = "";
+	private int issend = 0;
 	private int islock = 0;
-	private Date locktime = new Date();
+	private Date locktime = new Date(-2209017600000L);
 	private int isdelete = 0;
-	private Date createTime = new Date();
+	private Date createTime = new Date(-2209017600000L);
 	private String modifyUser = "";
 
 	public EmailContent() {
 	}
 
 	public EmailContent(String emailto, String ccto, String emailsubject, int emailtype, String attachment,
-			int subjectlevel, int issened, int islock, Date locktime, int isdelete, String modifyUser) {
+			int subjectlevel, int issend, int islock, Date locktime, int isdelete, String modifyUser) {
 		this.emailto = emailto;
 		this.ccto = ccto;
 		this.emailsubject = emailsubject;
 		this.emailtype = emailtype;
 		this.attachment = attachment;
 		this.subjectlevel = subjectlevel;
-		this.issened = issened;
+		this.issend = issend;
 		this.islock = islock;
 		this.locktime = locktime;
 		this.isdelete = isdelete;
@@ -43,15 +44,14 @@ public class EmailContent implements java.io.Serializable {
 	}
 
 	public EmailContent(String emailto, String ccto, String emailsubject, int emailtype, String attachment,
-			int subjectlevel, int issened, int islock, Date locktime, int isdelete, Date createTime,
-			String modifyUser) {
+			int subjectlevel, int issend, int islock, Date locktime, int isdelete, Date createTime, String modifyUser) {
 		this.emailto = emailto;
 		this.ccto = ccto;
 		this.emailsubject = emailsubject;
 		this.emailtype = emailtype;
 		this.attachment = attachment;
 		this.subjectlevel = subjectlevel;
-		this.issened = issened;
+		this.issend = issend;
 		this.islock = islock;
 		this.locktime = locktime;
 		this.isdelete = isdelete;
@@ -95,6 +95,14 @@ public class EmailContent implements java.io.Serializable {
 		return this.emailtype;
 	}
 
+	public String getEmailcontent() {
+		return emailcontent;
+	}
+
+	public void setEmailcontent(String emailcontent) {
+		this.emailcontent = emailcontent;
+	}
+
 	public void setEmailtype(int emailtype) {
 		this.emailtype = emailtype;
 	}
@@ -115,12 +123,12 @@ public class EmailContent implements java.io.Serializable {
 		this.subjectlevel = subjectlevel;
 	}
 
-	public int getIssened() {
-		return this.issened;
+	public int getIssend() {
+		return this.issend;
 	}
 
-	public void setIssened(int issened) {
-		this.issened = issened;
+	public void setIssend(int issend) {
+		this.issend = issend;
 	}
 
 	public int getIslock() {
@@ -184,9 +192,10 @@ public class EmailContent implements java.io.Serializable {
 					emailContent.setEmailtype(resultSet.getInt("emailtype"));
 					emailContent.setAttachment(resultSet.getString("attachment"));
 					emailContent.setSubjectlevel(resultSet.getInt("subjectlevel"));
-					emailContent.setIssened(resultSet.getInt("issend"));
+					emailContent.setIssend(resultSet.getInt("issend"));
 					emailContent.setIslock(resultSet.getInt("islock"));
 					emailContent.setIsdelete(resultSet.getInt("isdelete"));
+					emailContent.setEmailcontent(resultSet.getString("emailcontent"));
 					emailContent.setCreateTime(resultSet.getTimestamp("createTime"));
 					emailContent.setModifyUser(resultSet.getString("modifyUser"));
 					listcontent.add(emailContent);

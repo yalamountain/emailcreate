@@ -3,6 +3,7 @@ package com.flying.email.factory;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import com.flying.email.util.Encrypt;
@@ -15,36 +16,31 @@ public class ConnectionFactory {
 
 	/**
 	 * 构造函数,初始化数据库连接
-	 * 
-	 * @throws Exception
 	 */
-	@SuppressWarnings("static-access")
-	public ConnectionFactory() throws Exception {
-		this.connection = this.getEamilConnection();
+	public ConnectionFactory() {
 	}
 
 	/**
-	 * 创建数据库链接，获取链接
-	 * 
-	 * @author flying
-	 * @return 返回数据库链接
-	 * @throws Exception
-	 *             链接获取错误，文件读取错误
+	 * 初始化数据库链接
 	 */
-	private Connection getEamilConnection() throws Exception {
-		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("jdbc.properties");
+	static {
+		InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("jdbc.properties");
 		Properties properties = new Properties();
-		properties.load(inputStream);
-		String username = properties.getProperty("user").trim();
-		String password = Encrypt.aesDecrypt(properties.getProperty("password").trim());
-		String jdbcurl = properties.getProperty("jdbcUrl").trim();
-		String drivercalss = properties.getProperty("driverclass").trim();
-		Driver driver = (Driver) Class.forName(drivercalss).newInstance();
-		Properties dbinfo = new Properties();
-		dbinfo.setProperty("user", username);
-		dbinfo.setProperty("password", password);
-		Connection connection = driver.connect(jdbcurl, dbinfo);
-		return connection;
+		try {
+			properties.load(inputStream);
+			String username = properties.getProperty("user").trim();
+			String password = Encrypt.aesDecrypt(properties.getProperty("password").trim());
+			String jdbcurl = properties.getProperty("jdbcUrl").trim();
+			String drivercalss = properties.getProperty("driverclass").trim();
+			Driver driver = (Driver) Class.forName(drivercalss).newInstance();
+			Properties dbinfo = new Properties();
+			dbinfo.setProperty("user", username);
+			dbinfo.setProperty("password", password);
+			connection = driver.connect(jdbcurl, dbinfo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -54,6 +50,20 @@ public class ConnectionFactory {
 	 */
 	public static Connection getConnection() {
 		return connection;
+	}
+
+	/**
+	 * 关闭数据库链接
+	 */
+	public static void closeConnection() {
+		try {
+			if (connection.isClosed()) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

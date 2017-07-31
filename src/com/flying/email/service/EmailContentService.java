@@ -4,8 +4,6 @@ package com.flying.email.service;
  * date:2017年7月25日
  **/
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -21,21 +19,11 @@ public class EmailContentService {
 	//// 数据操作接口
 	private IEmailContent iEmailContent = null;
 
-	//// 数据库操作链接
-	private Connection connection = null;
-
 	/**
 	 * 构造函数
 	 */
-	@SuppressWarnings("static-access")
 	public EmailContentService() {
 		this.iEmailContent = new EmailContentImpl();
-		try {
-			this.connection = new ConnectionFactory().getConnection();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -54,26 +42,21 @@ public class EmailContentService {
 		emailContent.setAttachment(subject.getEmailtype() == 2 ? content : "");
 		emailContent.setSubjectlevel(subject.getSubjectlevel());
 		emailContent.setCreateTime(new Date());
-		return null;
+		emailContent.setEmailcontent(subject.getEmailtype() == 1 ? content : "");
+		return emailContent;
 	}
 
 	/**
 	 * 
-	 * @param connection
 	 * @param listemailcontent
 	 * @return
 	 */
 	public boolean insertIntoTable(List<EmailContent> listemailcontent) {
 		boolean flag = false;
-		try {
-			this.iEmailContent.insetIntoTbableList(this.connection, listemailcontent);
+
+		//// 插入数据大于0时才返回成功
+		if (this.iEmailContent.insetIntoTbableList(ConnectionFactory.getConnection(), listemailcontent) > 0) {
 			flag = true;
-			if (!this.connection.isClosed()) {
-				this.connection.close();
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		return flag;

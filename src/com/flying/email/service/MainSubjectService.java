@@ -1,7 +1,5 @@
 package com.flying.email.service;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import com.flying.email.bean.MainSubject;
 import com.flying.email.bean.Subject;
@@ -17,22 +15,11 @@ public class MainSubjectService {
 	//// 数据操作接口
 	private IMainSubject iMainSubject = null;
 
-	//// 获取数据库链接
-	private Connection connection = null;
-
 	/**
 	 * 构造函数
 	 */
-	@SuppressWarnings("static-access")
 	public MainSubjectService() {
 		this.iMainSubject = new MainSubjectImpl();
-
-		try {
-			this.connection = new ConnectionFactory().getConnection();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -41,16 +28,8 @@ public class MainSubjectService {
 	 * @return
 	 */
 	public List<MainSubject> GetAllMainSubjec() {
-		List<MainSubject> listResult = this.iMainSubject.getMainSubjectList(this.connection,
+		return this.iMainSubject.getMainSubjectList(ConnectionFactory.getConnection(),
 				" isforbidden=0  order by mainlevel desc ");
-		try {
-			if (!this.connection.isClosed()) {
-				this.connection.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return listResult;
 	}
 
 	/**

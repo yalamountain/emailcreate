@@ -1,8 +1,5 @@
 package com.flying.email.service;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,21 +25,11 @@ public class SubjectService {
 	//// 数据操作接口
 	private ISubject iSubject = null;
 
-	//// 获取数据库链接
-	private Connection connection = null;
-
 	/**
 	 * 构造函数
 	 */
-	@SuppressWarnings("static-access")
 	public SubjectService() {
 		this.iSubject = new SubjectImpl();
-		try {
-			this.connection = new ConnectionFactory().getConnection();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -53,7 +40,7 @@ public class SubjectService {
 	 */
 	public LinkedList<Subject> getSubjectByMainSubjectId(int mainsubjectid) {
 		String condition = " mainsubjectid=" + mainsubjectid + " and isforbidden=0 order by subjectlevel desc";
-		LinkedList<Subject> linkedList = this.iSubject.getSubjectList(this.connection, condition);
+		LinkedList<Subject> linkedList = this.iSubject.getSubjectList(ConnectionFactory.getConnection(), condition);
 		return linkedList;
 	}
 
@@ -190,18 +177,10 @@ public class SubjectService {
 	 * @return 返回更新结果
 	 */
 	public boolean updateSubject(Subject subject) {
-		try {
-			this.iSubject.updateSubject(this.connection, subject);
-			if (this.connection.isClosed()) {
-				this.connection.close();
-			}
-
+		if (this.iSubject.updateSubject(ConnectionFactory.getConnection(), subject) > 0) {
 			return true;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
 		}
 
+		return false;
 	}
 }

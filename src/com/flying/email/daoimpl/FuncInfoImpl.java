@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 
 import com.flying.email.bean.FuncInfo;
@@ -47,10 +46,6 @@ public class FuncInfoImpl implements IFuncInfo {
 
 				if (!prep.isClosed()) {
 					prep.close();
-				}
-
-				if (!connection.isClosed()) {
-					connection.close();
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -113,7 +108,7 @@ public class FuncInfoImpl implements IFuncInfo {
 			preparedStatement.setString(2, funcInfo.getFunctioninfo());
 			preparedStatement.setInt(3, funcInfo.getIsforbidden());
 			preparedStatement.setInt(4, funcInfo.getIsdelete());
-			preparedStatement.setTimestamp(5, (Timestamp) funcInfo.getCreateTime());
+			preparedStatement.setTimestamp(5, new java.sql.Timestamp(funcInfo.getCreateTime().getTime()));
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -143,7 +138,7 @@ public class FuncInfoImpl implements IFuncInfo {
 				preparedStatement.setString(2, funcInfo.getFunctioninfo());
 				preparedStatement.setInt(3, funcInfo.getIsforbidden());
 				preparedStatement.setInt(4, funcInfo.getIsdelete());
-				preparedStatement.setTimestamp(5, (Timestamp) funcInfo.getCreateTime());
+				preparedStatement.setTimestamp(5, new java.sql.Timestamp(funcInfo.getCreateTime().getTime()));
 				preparedStatement.addBatch();
 			}
 			return preparedStatement.executeBatch().length;
@@ -174,7 +169,7 @@ public class FuncInfoImpl implements IFuncInfo {
 			preparedStatement.setString(2, funcInfo.getFunctioninfo());
 			preparedStatement.setInt(3, funcInfo.getIsforbidden());
 			preparedStatement.setInt(4, funcInfo.getIsdelete());
-			preparedStatement.setTimestamp(5, (Timestamp) funcInfo.getCreateTime());
+			preparedStatement.setTimestamp(5, new java.sql.Timestamp(funcInfo.getCreateTime().getTime()));
 			preparedStatement.setString(6, funcInfo.getModifyUser());
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {

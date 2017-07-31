@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 
 import com.flying.email.bean.EmailContent;
@@ -48,10 +47,6 @@ public class EmailContentImpl implements IEmailContent {
 				if (!prep.isClosed()) {
 					prep.close();
 				}
-
-				if (!connection.isClosed()) {
-					connection.close();
-				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -88,11 +83,6 @@ public class EmailContentImpl implements IEmailContent {
 				if (!prep.isClosed()) {
 					prep.close();
 				}
-
-				if (!connection.isClosed()) {
-					connection.close();
-				}
-
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -102,7 +92,7 @@ public class EmailContentImpl implements IEmailContent {
 
 	@Override
 	public int insertIntoTable(Connection connection, EmailContent emailContent) {
-		String sql = " insert into emailcontent(emailto,ccto,emailsubject,emailtype,attachemt,subjectlevel,issend,islock,locktime,isdelete,createtime) values(?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = " insert into emailcontent(emailto,ccto,emailsubject,emailtype,attachment,subjectlevel,issend,islock,locktime,isdelete,createtime,emailcontent) values(?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(sql);
@@ -112,11 +102,12 @@ public class EmailContentImpl implements IEmailContent {
 			preparedStatement.setInt(4, emailContent.getEmailtype());
 			preparedStatement.setString(5, emailContent.getAttachment());
 			preparedStatement.setInt(6, emailContent.getSubjectlevel());
-			preparedStatement.setInt(7, emailContent.getIssened());
+			preparedStatement.setInt(7, emailContent.getIssend());
 			preparedStatement.setInt(8, emailContent.getIslock());
-			preparedStatement.setTimestamp(9, (Timestamp) emailContent.getLocktime());
+			preparedStatement.setTimestamp(9, new java.sql.Timestamp(emailContent.getLocktime().getTime()));
 			preparedStatement.setInt(10, emailContent.getIsdelete());
-			preparedStatement.setTimestamp(11, (Timestamp) emailContent.getCreateTime());
+			preparedStatement.setTimestamp(11, new java.sql.Timestamp(emailContent.getCreateTime().getTime()));
+			preparedStatement.setString(12, emailContent.getEmailcontent());
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -137,7 +128,7 @@ public class EmailContentImpl implements IEmailContent {
 
 	@Override
 	public int insetIntoTbableList(Connection connection, List<EmailContent> listemailcontent) {
-		String sql = " insert into emailcontent(emailto,ccto,emailsubject,emailtype,attachemt,subjectlevel,issend,islock,locktime,isdelete,createtime) values(?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = " insert into emailcontent(emailto,ccto,emailsubject,emailtype,attachment,subjectlevel,issend,islock,locktime,isdelete,createtime,emailcontent) values(?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement preparedStatement = null;
 		try {
 			for (EmailContent emailContent : listemailcontent) {
@@ -148,14 +139,16 @@ public class EmailContentImpl implements IEmailContent {
 				preparedStatement.setInt(4, emailContent.getEmailtype());
 				preparedStatement.setString(5, emailContent.getAttachment());
 				preparedStatement.setInt(6, emailContent.getSubjectlevel());
-				preparedStatement.setInt(7, emailContent.getIssened());
+				preparedStatement.setInt(7, emailContent.getIssend());
 				preparedStatement.setInt(8, emailContent.getIslock());
-				preparedStatement.setTimestamp(9, (Timestamp) emailContent.getLocktime());
+				preparedStatement.setTimestamp(9, new java.sql.Timestamp(emailContent.getLocktime().getTime()));
 				preparedStatement.setInt(10, emailContent.getIsdelete());
-				preparedStatement.setTimestamp(11, (Timestamp) emailContent.getCreateTime());
+				preparedStatement.setTimestamp(11, new java.sql.Timestamp(emailContent.getCreateTime().getTime()));
+				preparedStatement.setString(12, emailContent.getEmailcontent());
 				preparedStatement.addBatch();
 			}
 
+			preparedStatement.executeBatch();
 			return preparedStatement.executeBatch().length;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -176,7 +169,7 @@ public class EmailContentImpl implements IEmailContent {
 
 	@Override
 	public int updateEmailContent(Connection connection, EmailContent emailContent) {
-		String sql = " update emailcontent set emailto=?,ccto=?,emailsubject=?,emailtype=?,attachment=?,subjectlevel=?,issend=?,islock=?,locktime=?,isdelete=?,createTime=?,modifyuser=? where keyid=?";
+		String sql = " update emailcontent set emailto=?,ccto=?,emailsubject=?,emailtype=?,attachment=?,subjectlevel=?,issend=?,islock=?,locktime=?,isdelete=?,createTime=?,modifyuser=?,emailcontent=? where keyid=?";
 		PreparedStatement preparedStatement = null;
 
 		try {
@@ -187,12 +180,14 @@ public class EmailContentImpl implements IEmailContent {
 			preparedStatement.setInt(4, emailContent.getEmailtype());
 			preparedStatement.setString(5, emailContent.getAttachment());
 			preparedStatement.setInt(6, emailContent.getSubjectlevel());
-			preparedStatement.setInt(7, emailContent.getIssened());
+			preparedStatement.setInt(7, emailContent.getIssend());
 			preparedStatement.setInt(8, emailContent.getIslock());
-			preparedStatement.setTimestamp(9, (Timestamp) emailContent.getLocktime());
+			preparedStatement.setTimestamp(9, new java.sql.Timestamp(emailContent.getLocktime().getTime()));
 			preparedStatement.setInt(10, emailContent.getIsdelete());
-			preparedStatement.setTimestamp(11, (Timestamp) emailContent.getCreateTime());
-			preparedStatement.setInt(12, emailContent.getKeyId());
+			preparedStatement.setTimestamp(11, new java.sql.Timestamp(emailContent.getCreateTime().getTime()));
+			preparedStatement.setString(12, emailContent.getModifyUser());
+			preparedStatement.setString(13, emailContent.getEmailcontent());
+			preparedStatement.setInt(14, emailContent.getKeyId());
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -52,7 +52,7 @@ public class EmailDataHelper {
 				String username = connectInfo.getUseraccount().trim();
 				String password = Encrypt.aesDecrypt(connectInfo.getUserpassword().trim());
 				String jdbcurl = "jdbc:mysql://" + connectInfo.getIpaddress() + ":3306/"
-						+ connectInfo.getDataBaseName().trim();
+						+ connectInfo.getDataBaseName().trim() + "?characterEncoding=UTF-8";
 				String drivercalss = "com.mysql.jdbc.Driver";
 				Driver driver;
 				Connection connection = null;
@@ -81,9 +81,9 @@ public class EmailDataHelper {
 					e.printStackTrace();
 				} finally {
 //					try {
-////						if (!connection.isClosed()) {
-////							connection.close();
-////						}
+//						if (!connection.isClosed()) {
+//							connection.close();
+//						}
 //					} catch (SQLException e) {
 //						// TODO Auto-generated catch block
 //						e.printStackTrace();

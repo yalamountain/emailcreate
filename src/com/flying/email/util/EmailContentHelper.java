@@ -31,8 +31,7 @@ public class EmailContentHelper {
 		String resultstr = "";
 		//// 当邮件内容为附件时，获取邮件存储地址
 		if (subject.getEmailtype() == 2) {
-			InputStream inputStream = (new Object()).getClass().getClassLoader()
-					.getResourceAsStream("email.properties");
+			InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("email.properties");
 			Properties properties = new Properties();
 			try {
 				properties.load(inputStream);
@@ -44,8 +43,8 @@ public class EmailContentHelper {
 			//// 获取附件存储文件夹
 			String attchAddress = properties.getProperty("attchaddress");
 			Date date = new Date();
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHiiss");
-			String fileName = attchAddress + "/" + subject.getSubjectname() + simpleDateFormat.format(date);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+			String fileName = attchAddress + "/" + subject.getSubjectname() + simpleDateFormat.format(date) + ".xlsx";
 			//// 将Result转化成Excel内容
 			if (ExcelHelper.ResultSetToExcel(resultSet, fileName)) {
 				return fileName;

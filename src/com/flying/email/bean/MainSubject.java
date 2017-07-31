@@ -15,7 +15,7 @@ public class MainSubject implements java.io.Serializable {
 	private int isforbidden = 0;
 	private int isdelete = 0;
 	private int mainlevel = 0;
-	private Date createTime = new Date();
+	private Date createTime = new Date(-2209017600000L);
 	private String modifyUser = "";
 
 	public MainSubject() {

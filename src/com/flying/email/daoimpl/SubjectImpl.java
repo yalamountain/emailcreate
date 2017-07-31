@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,10 +48,6 @@ public class SubjectImpl implements ISubject {
 				if (!prep.isClosed()) {
 					prep.close();
 				}
-
-				if (!connection.isClosed()) {
-					connection.close();
-				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -93,10 +88,6 @@ public class SubjectImpl implements ISubject {
 				if (!prep.isClosed()) {
 					prep.close();
 				}
-
-				if (!connection.isClosed()) {
-					connection.close();
-				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -115,12 +106,12 @@ public class SubjectImpl implements ISubject {
 			preparedStatement.setString(2, subject.getSubjectname());
 			preparedStatement.setInt(3, subject.getDatacycle());
 			preparedStatement.setInt(4, subject.getEmailtype());
-			preparedStatement.setTimestamp(5, (Timestamp) subject.getDelayTime());
-			preparedStatement.setTimestamp(6, (Timestamp) subject.getDataDateTime());
+			preparedStatement.setTimestamp(5, new java.sql.Timestamp(subject.getDelayTime().getTime()));
+			preparedStatement.setTimestamp(6, new java.sql.Timestamp(subject.getDataDateTime().getTime()));
 			preparedStatement.setInt(7, subject.getSubjectlevel());
 			preparedStatement.setInt(8, subject.getIsforbidden());
 			preparedStatement.setInt(9, subject.getIsdelete());
-			preparedStatement.setTimestamp(10, (Timestamp) subject.getCreateTime());
+			preparedStatement.setTimestamp(10, new java.sql.Timestamp(subject.getCreateTime().getTime()));
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -151,12 +142,12 @@ public class SubjectImpl implements ISubject {
 				preparedStatement.setString(2, subject.getSubjectname());
 				preparedStatement.setInt(3, subject.getDatacycle());
 				preparedStatement.setInt(4, subject.getEmailtype());
-				preparedStatement.setTimestamp(5, (Timestamp) subject.getDelayTime());
-				preparedStatement.setTimestamp(6, (Timestamp) subject.getDataDateTime());
+				preparedStatement.setTimestamp(5, new java.sql.Timestamp(subject.getDelayTime().getTime()));
+				preparedStatement.setTimestamp(6, new java.sql.Timestamp(subject.getDataDateTime().getTime()));
 				preparedStatement.setInt(7, subject.getSubjectlevel());
 				preparedStatement.setInt(8, subject.getIsforbidden());
 				preparedStatement.setInt(9, subject.getIsdelete());
-				preparedStatement.setTimestamp(10, (Timestamp) subject.getCreateTime());
+				preparedStatement.setTimestamp(10, new java.sql.Timestamp(subject.getCreateTime().getTime()));
 				preparedStatement.addBatch();
 			}
 
@@ -188,12 +179,12 @@ public class SubjectImpl implements ISubject {
 			preparedStatement.setString(2, subject.getSubjectname());
 			preparedStatement.setInt(3, subject.getDatacycle());
 			preparedStatement.setInt(4, subject.getEmailtype());
-			preparedStatement.setTimestamp(5, (Timestamp) subject.getDelayTime());
-			preparedStatement.setTimestamp(6, (Timestamp) subject.getDataDateTime());
+			preparedStatement.setTimestamp(5, new java.sql.Timestamp(subject.getDelayTime().getTime()));
+			preparedStatement.setTimestamp(6, new java.sql.Timestamp(subject.getDataDateTime().getTime()));
 			preparedStatement.setInt(7, subject.getSubjectlevel());
 			preparedStatement.setInt(8, subject.getIsforbidden());
 			preparedStatement.setInt(9, subject.getIsdelete());
-			preparedStatement.setTimestamp(10, (Timestamp) subject.getCreateTime());
+			preparedStatement.setTimestamp(10, new java.sql.Timestamp(subject.getCreateTime().getTime()));
 			preparedStatement.setString(11, subject.getModifyUser());
 			preparedStatement.setInt(12, subject.getKeyId());
 			return preparedStatement.executeUpdate();

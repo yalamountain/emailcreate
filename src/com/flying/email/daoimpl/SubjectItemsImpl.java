@@ -48,10 +48,6 @@ public class SubjectItemsImpl implements ISubjectItems {
 				if (!prep.isClosed()) {
 					prep.close();
 				}
-
-				if (!connection.isClosed()) {
-					connection.close();
-				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -92,10 +88,6 @@ public class SubjectItemsImpl implements ISubjectItems {
 				if (!prep.isClosed()) {
 					prep.close();
 				}
-
-				if (!connection.isClosed()) {
-					connection.close();
-				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -116,7 +108,7 @@ public class SubjectItemsImpl implements ISubjectItems {
 			preparedStatement.setString(4, subjectitems.getFunctionname());
 			preparedStatement.setInt(5, subjectitems.getIsforbidden());
 			preparedStatement.setInt(6, subjectitems.getIsdelete());
-			preparedStatement.setTimestamp(7, (Timestamp) subjectitems.getCreateTime());
+			preparedStatement.setTimestamp(7, new Timestamp(subjectitems.getCreateTime().getTime()));
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -149,7 +141,7 @@ public class SubjectItemsImpl implements ISubjectItems {
 				preparedStatement.setString(4, subjectitems.getFunctionname());
 				preparedStatement.setInt(5, subjectitems.getIsforbidden());
 				preparedStatement.setInt(6, subjectitems.getIsdelete());
-				preparedStatement.setTimestamp(7, (Timestamp) subjectitems.getCreateTime());
+				preparedStatement.setTimestamp(7, new Timestamp(subjectitems.getCreateTime().getTime()));
 				preparedStatement.addBatch();
 			}
 
@@ -183,7 +175,7 @@ public class SubjectItemsImpl implements ISubjectItems {
 			preparedStatement.setString(4, subjectitems.getFunctionname());
 			preparedStatement.setInt(5, subjectitems.getIsforbidden());
 			preparedStatement.setInt(6, subjectitems.getIsdelete());
-			preparedStatement.setTimestamp(7, (Timestamp) subjectitems.getCreateTime());
+			preparedStatement.setTimestamp(7, new Timestamp(subjectitems.getCreateTime().getTime()));
 			preparedStatement.setString(8, subjectitems.getModifyUser());
 			preparedStatement.setInt(9, subjectitems.getKeyId());
 			return preparedStatement.executeUpdate();
